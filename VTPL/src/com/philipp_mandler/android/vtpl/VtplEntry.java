@@ -1,4 +1,4 @@
-package com.philipp_mandler.mes.vtpl;
+package com.philipp_mandler.android.vtpl;
 
 public class VtplEntry {
 	private String m_date;

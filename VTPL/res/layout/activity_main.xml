@@ -20,7 +20,6 @@
 
         <TableLayout
             android:id="@+id/table"
-            style="@style/table"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="10dp" >
