@@ -1,20 +1,11 @@
 package com.philipp_mandler.android.vtpl;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
+import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -41,45 +32,24 @@ public class MainActivity extends Activity {
     	dataRequest.execute("http://www.fricke-consult.de/php/MES_VertretungsplanL.php");
     }    
     
-    public class GetVtplData extends AsyncTask<String, Void, String> {
+    public class GetVtplData extends AsyncTask<String, Void, Document> {
     	
     	@Override
-    	protected String doInBackground(String... arg0) {
-        	HttpClient httpclient = new DefaultHttpClient();
-        	HttpPost httpPost = new HttpPost(arg0[0]);
-            HttpResponse response;
+    	protected Document doInBackground(String... arg0) {    	        
     		try {
-    			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-    	        nameValuePairs.add(new BasicNameValuePair("p", "vtpl"));
-    	        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-    	        
-    			response = httpclient.execute(httpPost);
-    			StatusLine statusLine = response.getStatusLine();
-    	        if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-    	            ByteArrayOutputStream out = new ByteArrayOutputStream();
-    	            response.getEntity().writeTo(out);
-    	            out.close();
-    	            return out.toString();
-    	        } else{
-    	            //Closes the connection.
-    	            response.getEntity().getContent().close();
-    	            throw new IOException(statusLine.getReasonPhrase());
-    	        }
-    		} catch (ClientProtocolException e) {
-    			e.printStackTrace();
+    			return Jsoup.connect(arg0[0]).data("p", "vtpl").method(Method.POST).execute().parse();  
     		} catch (IOException e) {
     			e.printStackTrace();
-    		}	
-    		
+			}
     		return null;
     	}
     	
     	@Override
-    	protected void onPostExecute(String result) {
+    	protected void onPostExecute(Document doc) {
+    		
     		TableLayout resultView = (TableLayout)findViewById(R.id.table);
     		resultView.removeAllViews();
     		
-    		Document doc = Jsoup.parse(result);
     		Elements elements = doc.select("tr");
     		List<VtplEntry> dataList = new ArrayList<VtplEntry>();
     		for(Element element : elements) {
