@@ -1,7 +1,6 @@
 package com.philipp_mandler.android.vtpl;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,26 +10,51 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+	// Arrow designed by Jardson Araújo from The Noun Project
+	
+	ViewPager m_viewPager;
+	
+	DeviceSize m_deviceSize = DeviceSize.single;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main);
+		
+		if(findViewById(R.id.main_single) == null)
+			m_deviceSize = DeviceSize.multi;
+		
+		if(m_deviceSize == DeviceSize.multi) {
+			
+		}
+		else {
+			
+		}
+
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
     
     public void onButtonClick(View v) {
     	GetVtplData dataRequest = new GetVtplData();
     	dataRequest.execute("http://www.fricke-consult.de/php/MES_VertretungsplanL.php");
-    }    
+    }
     
     public class GetVtplData extends AsyncTask<String, Void, Document> {
     	
@@ -47,7 +71,8 @@ public class MainActivity extends Activity {
     	@Override
     	protected void onPostExecute(Document doc) {
     		
-    		TableLayout resultView = (TableLayout)findViewById(R.id.table);
+    		//TableLayout resultView = (TableLayout)findViewById(R.id.table);
+    		TableLayout resultView = null;
     		resultView.removeAllViews();
     		
     		Elements elements = doc.select("tr");
@@ -132,8 +157,6 @@ public class MainActivity extends Activity {
     		TableRow headerRow = new TableRow(getApplicationContext());
     		
     		TableRow.LayoutParams rowLayoutParams = new TableRow.LayoutParams();
-    		rowLayoutParams.width = TableRow.LayoutParams.FILL_PARENT;
-			rowLayoutParams.weight = 1;
     		
 			TextView column_date = new TextView(getApplicationContext());
 			column_date.setText("Datum");
