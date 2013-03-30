@@ -14,10 +14,12 @@ public class VtplListContentItem implements VtplListItem {
 		m_data = data;
 	}
 	
+	@Override
 	public int getViewType() {
 		return RowType.LIST_ITEM.ordinal();
 	}
 
+	@Override
 	public View getView(LayoutInflater inflater, View convertView) {
 		View view;
 		if(convertView == null) {
