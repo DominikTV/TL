@@ -14,12 +14,10 @@ public class VtplListHeaderItem implements VtplListItem {
 		m_title = title;
 	}
 	
-	@Override
 	public int getViewType() {
 		return RowType.HEADER_ITEM.ordinal();
 	}
 
-	@Override
 	public View getView(LayoutInflater inflater, View convertView) {
 		View view;
 		if(convertView == null) {
