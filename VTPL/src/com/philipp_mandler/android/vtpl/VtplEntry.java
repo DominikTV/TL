@@ -18,6 +18,7 @@ public class VtplEntry {
 		m_lesson = lesson;
 		m_teacher = teacher;
 		m_room = room;
+		m_supplyRoom = supplyRoom;
 		m_schoolClass = schoolClass;
 		m_supplyTeacher = supplyTeacher;
 		m_attribute = attribute;

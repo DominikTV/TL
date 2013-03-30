@@ -7,5 +7,6 @@
     <string name="title_overview">Übersicht</string>
     <string name="title_timetable">Stundenplan</string>
     <string name="title_supplyplan">Vertretungsplan</string>
+    <string name="arrow_description">Arrow</string>
 
 </resources>
