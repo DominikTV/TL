@@ -58,6 +58,8 @@ public final class R {
         public static final int title_overview=0x7f050003;
         public static final int title_supplyplan=0x7f050005;
         public static final int title_timetable=0x7f050004;
+        public static final int toast_plan_update_failed=0x7f050008;
+        public static final int toast_plan_updated=0x7f050007;
     }
     public static final class style {
         /** 

@@ -8,5 +8,7 @@
     <string name="title_timetable">Stundenplan</string>
     <string name="title_supplyplan">Vertretungsplan</string>
     <string name="arrow_description">Arrow</string>
+    <string name="toast_plan_updated">Vertretungsplan aktualisiert.</string>
+    <string name="toast_plan_update_failed">Aktualisieren fehlgeschlagen, es besteht keine Verbindung zum Internet.</string>
 
 </resources>

@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class SupplyPlanFragment extends ListFragment {
 	
@@ -70,6 +71,10 @@ public class SupplyPlanFragment extends ListFragment {
     	
     	@Override
     	protected void onPostExecute(Document doc) {
+    		if(doc == null) {
+    			Toast.makeText(getActivity(), R.string.toast_plan_update_failed, Toast.LENGTH_LONG).show();
+    			return;
+    		}
     		
     		Elements elements = doc.select("tr");
     		List<VtplEntry> dataList = new ArrayList<VtplEntry>();
@@ -100,7 +105,12 @@ public class SupplyPlanFragment extends ListFragment {
 						
 						// parse lesson
 						if((data = tdElements.get(2)) != null) {
-							entry.setLesson(data.text());
+							if(data.html().contains("&nbsp;")) {
+		    					if(dataList.size() != 0)
+		    						entry.setLesson(dataList.get(dataList.size() - 1).getLesson());
+		    				}
+							else
+								entry.setLesson(data.text());
 						}
 						
 						// parse teacher
@@ -156,11 +166,12 @@ public class SupplyPlanFragment extends ListFragment {
     					lastDay = dataEntry.getDate();
     					m_vtplEntries.add(new VtplListContentItem(dataEntry));
     				}
-    				
-    				VtplListAdapter adapter = new VtplListAdapter(m_inflater.getContext(), m_vtplEntries);
-    				setListAdapter(adapter);
     			}
     		}
+    		VtplListAdapter adapter = new VtplListAdapter(m_inflater.getContext(), m_vtplEntries);
+			setListAdapter(adapter);
+			
+			Toast.makeText(getActivity(), R.string.toast_plan_updated, Toast.LENGTH_SHORT).show();
     	}
 	}
 }
