@@ -12,7 +12,7 @@ public class Date {
 		m_day = 0;
 		m_month = 0;
 		m_year = 0;
-		setWeekday(Weekday.Monday);
+		calculateWeekday();
 	}
 	
 	public Date(String date) throws Exception {
@@ -26,8 +26,7 @@ public class Date {
 			m_month = Integer.getInteger(parsed[1]);
 			m_year = Integer.getInteger(parsed[2]);
 			calculateWeekday();
-		}
-		
+		}		
 	}
 	
 	public Date(int day, int month, int year) {
@@ -37,37 +36,37 @@ public class Date {
 		calculateWeekday();		
 	}
 	
-	public int getday() {
-		return m_day;
-	}
-	public void setday(int day) {
-		m_day = day;
-		calculateWeekday();
+	private void calculateWeekday() {
+		
+		int month, year = m_year;
+		 
+		if(m_month <= 2) {
+			month = m_month + 10;
+			year = m_year - 1;
+		}
+		else
+			month = m_month - 2;
+ 
+		int c = year / 100;
+		int y = year % 100;
+ 
+		int h = (((26 * month - 2) / 10) + m_day + y + y / 4 + c / 4 - 2 * c) % 7;
+ 
+		if(h < 0)
+			h = h + 7;
+ 
+		switch(h)
+		{
+		case 0 : m_weekday = Weekday.Sunday; break;
+		case 1 : m_weekday = Weekday.Monday; break;
+		case 2 : m_weekday = Weekday.Tuesday; break;
+		case 3 : m_weekday = Weekday.Wednesday; break;
+		case 4 : m_weekday = Weekday.Thursday; break;
+		case 5 : m_weekday = Weekday.Friday; break;
+		case 6 : m_weekday = Weekday.Saturday; break;     
+		}
 	}
 	
-	public int getmonth() {
-		return m_month;
-	}
-	public void setmonth(int month) {
-		m_month = month;
-		calculateWeekday();
-	}
-	
-	public int getyear() {
-		return m_year;
-	}
-	public void setyear(int year) {
-		m_year = year;
-		calculateWeekday();
-	}
-
-	public Weekday getWeekday() {
-		return m_weekday;
-	}
-	public void setWeekday(Weekday weekday) {
-		m_weekday = weekday;
-	}
-
 	public void setDate(String date) throws Exception {
 		String[] parsed = date.split("\\.");
 		if(parsed.length == 3) {
@@ -79,51 +78,40 @@ public class Date {
 			m_month = Integer.getInteger(parsed[1]);
 			m_year = Integer.getInteger(parsed[2]);
 			calculateWeekday();
-		}
-		
+		}		
 	}
-	public String getDate() {
-		String date;
-		date = m_day + "." + m_month + "." + m_year;
-		
-		return date;
+	
+	public int getDay() {
+		return m_day;
+	}
+	
+	public void setDay(int day) {
+		m_day = day;
+		calculateWeekday();
+	}
+	
+	public int getMonth() {
+		return m_month;
+	}
+	
+	public void setMonth(int month) {
+		m_month = month;
+		calculateWeekday();
+	}
+	
+	public int getYear() {
+		return m_year;
+	}
+	public void setYear(int year) {
+		m_year = year;
+		calculateWeekday();
 	}
 
-	private void calculateWeekday() {
-		
-		int month, year=m_year;
-		 
-		if(m_month<=2)
-			{month=m_month+10;
-			year=m_year-1;}
-		else
-			month=m_month-2;
- 
-		int c = year/100;
-		int y = year%100;
- 
-		int h = (((26*month-2)/10)+m_day+y+y/4+c/4-2*c)%7;
- 
-		if(h<0)
-			h=h+7;
- 
-		switch(h)
-		{
-		case 0 : setWeekday(Weekday.Sunday);
-				break;
-		case 1 : setWeekday(Weekday.Monday);
-			break;
-		case 2 : setWeekday(Weekday.Tuesday);
-			break;
-		case 3 : setWeekday(Weekday.Wednesday);
-			break;
-		case 4 : setWeekday(Weekday.Thursday);
-			break;
-		case 5 : setWeekday(Weekday.Friday);
-			break;
-		case 6 : setWeekday(Weekday.Saturday);
-			break;     
-		}
-		
+	public Weekday getWeekday() {
+		return m_weekday;
+	}
+	
+	public String toString() {
+		return m_day + "." + m_month + "." + m_year;
 	}
 }
