@@ -27,6 +27,13 @@ public class SupplyPlanFragment extends ListFragment {
 	private LayoutInflater m_inflater;
 	
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		GetVtplData dataRequest = new GetVtplData();
+		dataRequest.execute("http://www.fricke-consult.de/php/MES_VertretungsplanL.php");
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setHasOptionsMenu(true);
 		
