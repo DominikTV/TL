@@ -109,20 +109,20 @@ public class Date {
  
 		switch(h)
 		{
-		case 0 : setWeekday(Weekday.Monday);	//Sonntag
+		case 0 : setWeekday(Weekday.Sunday);
 				break;
 		case 1 : setWeekday(Weekday.Monday);
-		break;
+			break;
 		case 2 : setWeekday(Weekday.Tuesday);
-		break;
+			break;
 		case 3 : setWeekday(Weekday.Wednesday);
-		break;
+			break;
 		case 4 : setWeekday(Weekday.Thursday);
-		break;
+			break;
 		case 5 : setWeekday(Weekday.Friday);
-		break;
-		case 6 : setWeekday(Weekday.Monday);	//Samstag
-		break;     
+			break;
+		case 6 : setWeekday(Weekday.Saturday);
+			break;     
 		}
 		
 	}
