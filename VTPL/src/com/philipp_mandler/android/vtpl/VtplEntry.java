@@ -1,6 +1,9 @@
 package com.philipp_mandler.android.vtpl;
 
-public class VtplEntry {
+import java.io.Serializable;
+
+public class VtplEntry implements Serializable {
+	private static final long serialVersionUID = -2462483326344897841L;
 	private String m_date;
 	private String m_dayOfWeek;
 	private String m_lesson;

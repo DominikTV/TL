@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_single"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:baselineAligned="false"
-    android:orientation="horizontal" >
+    android:layout_height="match_parent" >
 
     <fragment
-		android:id="@+id/fragment2"
-		android:name="com.philipp_mandler.android.vtpl.SupplyPlanFragment"
-		android:layout_width="0dp"
-		android:layout_height="fill_parent"
-		android:layout_weight="1" />
+        android:id="@+id/fragment2"
+        android:name="com.philipp_mandler.android.vtpl.SupplyPlanFragment"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" />
 
-</LinearLayout>
+    <FrameLayout
+        android:id="@+id/frameLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#88000000"
+        android:clickable="true"
+        android:visibility="invisible" >
+
+        <FrameLayout
+            android:id="@+id/detailviewPlaceholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
+
+    </FrameLayout>
+
+</FrameLayout>

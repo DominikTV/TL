@@ -6,4 +6,5 @@ import android.view.View;
 public interface VtplListItem {
 	public int getViewType();
 	public View getView(LayoutInflater inflater, View convertView);
+	public VtplEntry getData();
 }

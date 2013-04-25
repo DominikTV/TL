@@ -6,18 +6,27 @@
     android:baselineAligned="false"
     android:orientation="horizontal" >
 
-    <fragment
-        android:id="@+id/fragment2"
-        android:name="com.philipp_mandler.android.vtpl.SupplyPlanFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+	<FrameLayout
+	    android:layout_width="0dp"
+	    android:layout_height="match_parent"
+	    android:layout_weight="1"
+	    android:background="#eee" >
 
-    <fragment
-        android:id="@+id/fragment1"
-        android:name="com.philipp_mandler.android.vtpl.VtplDetailFragment"
+	    <fragment
+        	android:id="@+id/fragment2"
+        	android:name="com.philipp_mandler.android.vtpl.SupplyPlanFragment" 
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent" />
+	</FrameLayout>
+    
+
+    <FrameLayout
+        android:id="@+id/detailviewPlaceholder"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="2" />
+        android:layout_weight="2"
+        android:background="#fff" >
+
+    </FrameLayout>
 
 </LinearLayout>

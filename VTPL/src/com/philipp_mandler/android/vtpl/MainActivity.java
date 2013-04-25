@@ -3,6 +3,7 @@ package com.philipp_mandler.android.vtpl;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 
 public class MainActivity extends FragmentActivity {
 
@@ -10,7 +11,7 @@ public class MainActivity extends FragmentActivity {
 	
 	ViewPager m_viewPager;
 	
-	DeviceSize m_deviceSize = DeviceSize.single;
+	private DeviceSize m_deviceSize = DeviceSize.single;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +27,14 @@ public class MainActivity extends FragmentActivity {
 		else {
 			
 		}
-
 	}
-
-
+	
+	@Override
+	public void onBackPressed() {
+		if(findViewById(R.id.frameLayout3).getVisibility() == View.VISIBLE) {
+			findViewById(R.id.frameLayout3).setVisibility(View.INVISIBLE);
+		}
+		else
+			super.onBackPressed();
+	}
 }

@@ -12,6 +12,7 @@ import org.jsoup.select.Elements;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,12 +20,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.philipp_mandler.android.vtpl.VtplListAdapter.RowType;
 
 public class SupplyPlanFragment extends ListFragment {
 	
 	private List<VtplListItem> m_vtplEntries;
 	private LayoutInflater m_inflater;
+	VtplDetailFragment m_detailFragment;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +44,7 @@ public class SupplyPlanFragment extends ListFragment {
 		
 		m_vtplEntries = new ArrayList<VtplListItem>();
 		
-		VtplListAdapter adapter = new VtplListAdapter(inflater.getContext(), m_vtplEntries);
-		
+		VtplListAdapter adapter = new VtplListAdapter(inflater.getContext(), m_vtplEntries);		
 		setListAdapter(adapter);
 		
 		m_inflater = inflater;
@@ -62,6 +66,29 @@ public class SupplyPlanFragment extends ListFragment {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		if(l.getAdapter().getItemViewType(position) == RowType.LIST_ITEM.ordinal()) {
+			if(getActivity().findViewById(R.id.main_single) == null) {
+				m_detailFragment = new VtplDetailFragment();	
+				m_detailFragment.setData(m_vtplEntries.get(position).getData());
+				FragmentTransaction trans = getFragmentManager().beginTransaction();
+				trans.replace(R.id.detailviewPlaceholder, m_detailFragment);
+				trans.commit();
+			}
+			else {
+				m_detailFragment = new VtplDetailFragment();	
+				m_detailFragment.setData(m_vtplEntries.get(position).getData());
+				FragmentTransaction trans = getFragmentManager().beginTransaction();
+				trans.replace(R.id.detailviewPlaceholder, m_detailFragment);
+				trans.setTransition(FragmentTransaction.TRANSIT_NONE);
+				trans.commit();	
+				getActivity().findViewById(R.id.frameLayout3).setVisibility(View.VISIBLE);
+			}
+		}		
+		super.onListItemClick(l, v, position, id);
 	}
 	
 	public class GetVtplData extends AsyncTask<String, Void, Document> {

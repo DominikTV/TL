@@ -34,5 +34,10 @@ public class VtplListHeaderItem implements VtplListItem {
 		
 		return view;
 	}
+	
+	@Override
+	public VtplEntry getData() {
+		return null;
+	}
 
 }

@@ -10,5 +10,15 @@
     <string name="arrow_description">Arrow</string>
     <string name="toast_plan_updated">Vertretungsplan aktualisiert.</string>
     <string name="toast_plan_update_failed">Aktualisieren fehlgeschlagen, es besteht keine Verbindung zum Internet.</string>
+    <string name="detail_lesson">Stunde</string>
+    <string name="detail_date">Datum</string>
+    <string name="detail_schoolClass">Kurs</string>
+    <string name="detail_teacher">Lehrer</string>
+    <string name="detail_supplyTeacher">Vertr. Lehrer</string>
+    <string name="detail_room">Raum</string>
+    <string name="detail_supplyRoom">Vertr. Raum</string>
+    <string name="detail_info">Info</string>
+    <string name="title_activity_vtpl_detail">Details</string>
+    <string name="action_settings">Settings</string>
 
 </resources>

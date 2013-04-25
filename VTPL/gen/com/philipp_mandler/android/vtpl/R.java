@@ -23,21 +23,41 @@ public final class R {
     public static final class drawable {
         public static final int arrow=0x7f020000;
         public static final int ic_launcher=0x7f020001;
+        public static final int tip=0x7f020002;
     }
     public static final class id {
-        public static final int action_refresh=0x7f08000c;
-        public static final int fragment1=0x7f080003;
+        public static final int TextView02=0x7f08000e;
+        public static final int TextView04=0x7f08000c;
+        public static final int TextView06=0x7f08000a;
+        public static final int TextView08=0x7f080008;
+        public static final int TextView10=0x7f080006;
+        public static final int TextView14=0x7f080014;
+        public static final int TextView18=0x7f080012;
+        public static final int TextView20=0x7f080010;
+        public static final int action_refresh=0x7f08001e;
+        public static final int action_settings=0x7f08001f;
+        public static final int date=0x7f080009;
+        public static final int detailviewPlaceholder=0x7f080003;
         public static final int fragment2=0x7f080001;
-        public static final int imageView1=0x7f080009;
-        public static final int list_header_title=0x7f080004;
-        public static final int main_multi=0x7f080002;
+        public static final int frameLayout3=0x7f080002;
+        public static final int imageView1=0x7f08001b;
+        public static final int info=0x7f080015;
+        public static final int lesson=0x7f08000b;
+        public static final int list_header_title=0x7f080016;
+        public static final int main_multi=0x7f080004;
         public static final int main_single=0x7f080000;
-        public static final int text_class=0x7f080005;
-        public static final int text_lesson=0x7f080006;
-        public static final int text_room=0x7f080008;
-        public static final int text_supplyRoom=0x7f08000b;
-        public static final int text_supplyTeacher=0x7f08000a;
-        public static final int text_teacher=0x7f080007;
+        public static final int room=0x7f080011;
+        public static final int schoolClass=0x7f080007;
+        public static final int scrollView1=0x7f080005;
+        public static final int supplyRoom=0x7f080013;
+        public static final int supplyTeacher=0x7f08000f;
+        public static final int teacher=0x7f08000d;
+        public static final int text_class=0x7f080017;
+        public static final int text_lesson=0x7f080018;
+        public static final int text_room=0x7f08001a;
+        public static final int text_supplyRoom=0x7f08001d;
+        public static final int text_supplyTeacher=0x7f08001c;
+        public static final int text_teacher=0x7f080019;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
@@ -49,12 +69,23 @@ public final class R {
     }
     public static final class menu {
         public static final int main=0x7f070000;
+        public static final int vtpl_detail=0x7f070001;
     }
     public static final class string {
         public static final int action_refresh=0x7f050001;
+        public static final int action_settings=0x7f050012;
         public static final int app_name=0x7f050000;
         public static final int arrow_description=0x7f050006;
+        public static final int detail_date=0x7f05000a;
+        public static final int detail_info=0x7f050010;
+        public static final int detail_lesson=0x7f050009;
+        public static final int detail_room=0x7f05000e;
+        public static final int detail_schoolClass=0x7f05000b;
+        public static final int detail_supplyRoom=0x7f05000f;
+        public static final int detail_supplyTeacher=0x7f05000d;
+        public static final int detail_teacher=0x7f05000c;
         public static final int hello_world=0x7f050002;
+        public static final int title_activity_vtpl_detail=0x7f050011;
         public static final int title_overview=0x7f050003;
         public static final int title_supplyplan=0x7f050005;
         public static final int title_timetable=0x7f050004;

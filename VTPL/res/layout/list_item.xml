@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="48dp"
     android:weightSum="1"
     android:baselineAligned="false" >
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:orientation="vertical" >
 
             <TextView
@@ -52,9 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_weight="0.4"
                 android:ellipsize="end"
-                android:text=""
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="" />
 
             <TextView
                 android:id="@+id/text_room"
@@ -77,8 +78,9 @@
                 android:id="@+id/imageView1"
                 android:layout_width="28dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/arrow"
-                android:contentDescription="@string/arrow_description" />
+                android:layout_gravity="center"
+                android:contentDescription="@string/arrow_description"
+                android:src="@drawable/arrow" />
 
         </FrameLayout>
 
@@ -86,7 +88,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:orientation="vertical" >
 
             <TextView
@@ -109,4 +111,5 @@
 
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

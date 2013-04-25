@@ -47,5 +47,10 @@ public class VtplListContentItem implements VtplListItem {
 		
 		return view;
 	}
+	
+	@Override
+	public VtplEntry getData() {
+		return m_data;
+	}
 
 }
