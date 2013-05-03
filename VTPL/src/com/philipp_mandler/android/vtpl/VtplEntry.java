@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 public class VtplEntry implements Serializable {
 	private static final long serialVersionUID = -2462483326344897841L;
-	private String m_date;
-	private String m_dayOfWeek;
+	private Date m_date;
 	private String m_lesson;
 	private String m_teacher;
 	private String m_room;
@@ -15,9 +14,8 @@ public class VtplEntry implements Serializable {
 	private String m_attribute;
 	private String m_info;	
 	
-	public VtplEntry(String date, String dayOfWeek, String lesson, String teacher, String room, String schoolClass, String supplyTeacher, String supplyRoom, String attribute, String info) {
+	public VtplEntry(Date date, String lesson, String teacher, String room, String schoolClass, String supplyTeacher, String supplyRoom, String attribute, String info) {
 		m_date = date;
-		m_dayOfWeek = dayOfWeek;
 		m_lesson = lesson;
 		m_teacher = teacher;
 		m_room = room;
@@ -33,23 +31,15 @@ public class VtplEntry implements Serializable {
 	}
 	
 	public String toString() {
-		return m_date + " " + m_dayOfWeek + " " + m_lesson + " " + m_teacher + " " + m_room + " " + m_schoolClass + " " + m_supplyTeacher + " " + m_supplyRoom + " " + m_attribute + " " + m_info;
+		return m_date.toString() + " " + m_lesson + " " + m_teacher + " " + m_room + " " + m_schoolClass + " " + m_supplyTeacher + " " + m_supplyRoom + " " + m_attribute + " " + m_info;
 	}
 
-	public String getDate() {
+	public Date getDate() {
 		return m_date;
 	}
 
-	public void setDate(String m_date) {
+	public void setDate(Date m_date) {
 		this.m_date = m_date;
-	}
-
-	public String getDayOfWeek() {
-		return m_dayOfWeek;
-	}
-
-	public void setDayOfWeek(String m_dayOfWeek) {
-		this.m_dayOfWeek = m_dayOfWeek;
 	}
 
 	public String getLesson() {

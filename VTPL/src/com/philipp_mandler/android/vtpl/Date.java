@@ -1,7 +1,10 @@
 package com.philipp_mandler.android.vtpl;
 
-public class Date {
-	
+import java.io.Serializable;
+
+public class Date implements Serializable {
+
+	private static final long serialVersionUID = -3092371141685591787L;
 	private int m_day;
 	private int m_month;
 	private int m_year;
@@ -18,13 +21,13 @@ public class Date {
 	public Date(String date) throws Exception {
 		String[] parsed = date.split("\\.");
 		if(parsed.length == 3) {
-			if(Integer.getInteger(parsed[0]) == null || Integer.getInteger(parsed[1]) == null || Integer.getInteger(parsed[2])== null) {
+			if(Integer.valueOf(parsed[0]) == null || Integer.valueOf(parsed[1]) == null || Integer.valueOf(parsed[2]) == null) {
 				throw new Exception("String wrong formated.");
 			}
 			
-			m_day = Integer.getInteger(parsed[0]);
-			m_month = Integer.getInteger(parsed[1]);
-			m_year = Integer.getInteger(parsed[2]);
+			m_day = Integer.valueOf(parsed[0]);
+			m_month = Integer.valueOf(parsed[1]);
+			m_year = Integer.valueOf(parsed[2]);
 			calculateWeekday();
 		}		
 	}
@@ -113,5 +116,11 @@ public class Date {
 	
 	public String toString() {
 		return m_day + "." + m_month + "." + m_year;
+	}
+	
+	public boolean equals(Date date) {
+		if(m_year == date.m_year && m_month == date.m_month && m_day == date.m_day)
+			return true;
+		return false;
 	}
 }

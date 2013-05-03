@@ -1,6 +1,8 @@
 package com.philipp_mandler.android.vtpl;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -27,14 +30,12 @@ import com.philipp_mandler.android.vtpl.VtplListAdapter.RowType;
 
 public class SupplyPlanFragment extends ListFragment {
 	
-	private List<VtplListItem> m_vtplEntries;
+	private List<VtplListItem> m_vtplEntries = new ArrayList<VtplListItem>();
 	private LayoutInflater m_inflater;
 	VtplDetailFragment m_detailFragment;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		GetVtplData dataRequest = new GetVtplData();
-		dataRequest.execute("http://www.fricke-consult.de/php/MES_VertretungsplanL.php");
+	public void onCreate(Bundle savedInstanceState) {		
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -50,6 +51,36 @@ public class SupplyPlanFragment extends ListFragment {
 		m_inflater = inflater;
 		
 		return super.onCreateView(inflater, container, savedInstanceState);
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		try {				
+			ObjectInputStream inputStream = new ObjectInputStream(getActivity().openFileInput("data.bin"));
+			Object object = inputStream.readObject();
+			if(object instanceof SaveData) {
+				m_vtplEntries.clear();
+				Date lastDay = null;
+				for(VtplEntry dataEntry : ((SaveData)object).getData()) {
+					if(lastDay == null || !lastDay.equals(dataEntry.getDate())) {
+						m_vtplEntries.add(new VtplListHeaderItem(weekdayToString(dataEntry.getDate().getWeekday()) + ", " + dataEntry.getDate().getDay() + "." + dataEntry.getDate().getMonth() + "."));
+					}
+					lastDay = dataEntry.getDate();
+					m_vtplEntries.add(new VtplListContentItem(dataEntry));
+				}
+				VtplListAdapter adapter = new VtplListAdapter(m_inflater.getContext(), m_vtplEntries);
+				setListAdapter(adapter);
+			}
+			inputStream.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(!Data.updated) {
+			GetVtplData dataRequest = new GetVtplData();
+			dataRequest.execute("http://www.fricke-consult.de/php/MES_VertretungsplanL.php");
+			Data.updated = true;
+		}
+		super.onViewCreated(view, savedInstanceState);
 	}
 	
 	@Override
@@ -112,6 +143,9 @@ public class SupplyPlanFragment extends ListFragment {
     		
     		Elements elements = doc.select("tr");
     		List<VtplEntry> dataList = new ArrayList<VtplEntry>();
+    		
+    		String lastSchoolClass = "-";
+    		String lastLesson = "";
     		for(Element element : elements) {
     			Elements tdElements = element.select("td");
     			Element data;
@@ -123,28 +157,25 @@ public class SupplyPlanFragment extends ListFragment {
 	    					if(dataList.size() != 0)
 	    						entry.setDate(dataList.get(dataList.size() - 1).getDate());
 	    				}
-	    				else
-	    					entry.setDate(data.text());
-	    				
-    			
-						// parse day of week
-						if((data = tdElements.get(1)) != null) {  	
-							if(data.html().contains("&nbsp;")) {
-		    					if(dataList.size() != 0)
-		    						entry.setDayOfWeek(dataList.get(dataList.size() - 1).getDayOfWeek());
-		    				}
-		    				else
-		    					entry.setDayOfWeek(data.text());
-						}
+	    				else {
+	    					lastSchoolClass = "-";
+	    					lastLesson = "";
+	    					try {
+								entry.setDate(new Date(data.text()));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+	    				}
 						
 						// parse lesson
 						if((data = tdElements.get(2)) != null) {
 							if(data.html().contains("&nbsp;")) {
-		    					if(dataList.size() != 0)
-		    						entry.setLesson(dataList.get(dataList.size() - 1).getLesson());
+								entry.setLesson(lastLesson);
 		    				}
-							else
+							else {
 								entry.setLesson(data.text());
+								lastLesson = data.text();
+							}
 						}
 						
 						// parse teacher
@@ -159,12 +190,12 @@ public class SupplyPlanFragment extends ListFragment {
 						
 						// parse class
 						if((data = tdElements.get(5)) != null) {
-							if(data.html().contains("&nbsp;")) {
-		    					if(dataList.size() != 0)
-		    						entry.setSchoolClass(dataList.get(dataList.size() - 1).getSchoolClass());
-		    				}
-		    				else
+							if(data.html().contains("&nbsp;"))
+								entry.setSchoolClass(lastSchoolClass);
+		    				else {
 		    					entry.setSchoolClass(data.text());
+		    					lastSchoolClass = data.text();
+		    				}
 						}
 						
 						// parse supply teacher		    			
@@ -192,14 +223,22 @@ public class SupplyPlanFragment extends ListFragment {
     				
     				m_vtplEntries.clear();
     				
-    				String lastDay = "";
+    				Date lastDay = null;
     				for(VtplEntry dataEntry : dataList) {
-    					if(!lastDay.equals(dataEntry.getDate())) {
-    						m_vtplEntries.add(new VtplListHeaderItem(dataEntry.getDate()));
+    					if(lastDay == null || !lastDay.equals(dataEntry.getDate())) {
+    						m_vtplEntries.add(new VtplListHeaderItem(weekdayToString(dataEntry.getDate().getWeekday()) + ", " + dataEntry.getDate().getDay() + "." + dataEntry.getDate().getMonth() + "."));
     					}
     					lastDay = dataEntry.getDate();
     					m_vtplEntries.add(new VtplListContentItem(dataEntry));
     				}
+					try {
+						ObjectOutputStream outputStream = new ObjectOutputStream(getActivity().openFileOutput("data.bin", Context.MODE_PRIVATE));
+						SaveData saveData = new SaveData(dataList);
+						outputStream.writeObject(saveData);
+						outputStream.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}    				
     			}
     		}
     		VtplListAdapter adapter = new VtplListAdapter(m_inflater.getContext(), m_vtplEntries);
@@ -207,5 +246,20 @@ public class SupplyPlanFragment extends ListFragment {
 			
 			Toast.makeText(getActivity(), R.string.toast_plan_updated, Toast.LENGTH_SHORT).show();
     	}
+	}
+	
+	private String weekdayToString(Weekday day) {
+		String weekday;		
+		switch(day) {
+		case Monday: weekday = getString(R.string.weekday_monday); break;
+		case Tuesday: weekday = getString(R.string.weekday_tuesday); break;
+		case Wednesday: weekday = getString(R.string.weekday_wednesday); break;
+		case Thursday: weekday = getString(R.string.weekday_thursday); break;
+		case Friday: weekday = getString(R.string.weekday_friday); break;
+		case Saturday: weekday = getString(R.string.weekday_saturday); break;
+		case Sunday: weekday = getString(R.string.weekday_sunday); break;
+		default: weekday = ""; break;
+		}		
+		return weekday;
 	}
 }

@@ -35,7 +35,7 @@ public class VtplDetailFragment extends Fragment {
 	
 	private void showData() {
 		((TextView)getActivity().findViewById(R.id.schoolClass)).setText(m_data.getSchoolClass());
-		((TextView)getActivity().findViewById(R.id.date)).setText(m_data.getDate());
+		((TextView)getActivity().findViewById(R.id.date)).setText(m_data.getDate().getDay() + "." + m_data.getDate().getMonth() + "." + m_data.getDate().getYear());
 		((TextView)getActivity().findViewById(R.id.lesson)).setText(m_data.getLesson());
 		((TextView)getActivity().findViewById(R.id.teacher)).setText(m_data.getTeacher());
 		((TextView)getActivity().findViewById(R.id.supplyTeacher)).setText(m_data.getSupplyTeacher());

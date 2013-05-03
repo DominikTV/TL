@@ -91,6 +91,13 @@ public final class R {
         public static final int title_timetable=0x7f050004;
         public static final int toast_plan_update_failed=0x7f050008;
         public static final int toast_plan_updated=0x7f050007;
+        public static final int weekday_friday=0x7f050017;
+        public static final int weekday_monday=0x7f050013;
+        public static final int weekday_saturday=0x7f050018;
+        public static final int weekday_sunday=0x7f050019;
+        public static final int weekday_thursday=0x7f050016;
+        public static final int weekday_tuesday=0x7f050014;
+        public static final int weekday_wednesday=0x7f050015;
     }
     public static final class style {
         /** 

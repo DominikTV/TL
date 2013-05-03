@@ -20,5 +20,12 @@
     <string name="detail_info">Info</string>
     <string name="title_activity_vtpl_detail">Details</string>
     <string name="action_settings">Settings</string>
+    <string name="weekday_monday">Montag</string>
+    <string name="weekday_tuesday">Dienstag</string>
+    <string name="weekday_wednesday">Mittwoch</string>
+    <string name="weekday_thursday">Donnerstag</string>
+    <string name="weekday_friday">Freitag</string>
+    <string name="weekday_saturday">Samstag</string>
+    <string name="weekday_sunday">Sonntag</string>
 
 </resources>
