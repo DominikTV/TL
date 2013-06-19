@@ -38,72 +38,72 @@ public class VtplEntry implements Serializable {
 		return m_date;
 	}
 
-	public void setDate(Date m_date) {
-		this.m_date = m_date;
+	public void setDate(Date date) {
+		m_date = date;
 	}
 
 	public String getLesson() {
 		return m_lesson;
 	}
 
-	public void setLesson(String m_lesson) {
-		this.m_lesson = m_lesson;
+	public void setLesson(String lesson) {
+		m_lesson = lesson;
 	}
 
 	public String getTeacher() {
 		return m_teacher;
 	}
 
-	public void setTeacher(String m_teacher) {
-		this.m_teacher = m_teacher;
+	public void setTeacher(String teacher) {
+		m_teacher = teacher;
 	}
 
 	public String getRoom() {
 		return m_room;
 	}
 
-	public void setRoom(String m_room) {
-		this.m_room = m_room;
+	public void setRoom(String room) {
+		m_room = room;
 	}
 
 	public String getSchoolClass() {
 		return m_schoolClass;
 	}
 
-	public void setSchoolClass(String m_schoolClass) {
-		this.m_schoolClass = m_schoolClass;
+	public void setSchoolClass(String schoolClass) {
+		m_schoolClass = schoolClass;
 	}
 
 	public String getSupplyTeacher() {
 		return m_supplyTeacher;
 	}
 
-	public void setSupplyTeacher(String m_supplyTeacher) {
-		this.m_supplyTeacher = m_supplyTeacher;
+	public void setSupplyTeacher(String supplyTeacher) {
+		m_supplyTeacher = supplyTeacher;
 	}
 
 	public String getSupplyRoom() {
 		return m_supplyRoom;
 	}
 
-	public void setSupplyRoom(String m_supplyRoom) {
-		this.m_supplyRoom = m_supplyRoom;
+	public void setSupplyRoom(String supplyRoom) {
+		m_supplyRoom = supplyRoom;
 	}
 
 	public String getAttribute() {
 		return m_attribute;
 	}
 
-	public void setAttribute(String m_attribute) {
-		this.m_attribute = m_attribute;
+	public void setAttribute(String attribute) {
+		m_attribute = attribute;
 	}
 
 	public String getInfo() {
 		return m_info;
 	}
 
-	public void setInfo(String m_info) {
-		this.m_info = m_info;
+	public void setInfo(String info) {
+		m_info = info;
 	}
 	
 	
