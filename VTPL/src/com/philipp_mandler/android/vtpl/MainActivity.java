@@ -8,9 +8,8 @@ import android.view.View;
 
 public class MainActivity extends FragmentActivity {
 
-	// Arrow designed by Jardson Araújo from The Noun Project
-	
-	ViewPager m_viewPager;
+	// Arrow designed by Jardson Ara?jo from The Noun Project
+
 	
 	public MainActivity() {
 		Log.i("Acctivity", "Activity konstructor");

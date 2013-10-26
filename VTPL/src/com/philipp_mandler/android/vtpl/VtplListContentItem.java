@@ -23,13 +23,11 @@ public class VtplListContentItem implements VtplListItem {
 	public View getView(LayoutInflater inflater, View convertView) {
 		View view;
 		if(convertView == null) {
-			view = (View)inflater.inflate(R.layout.list_item, null);
+			view = inflater.inflate(R.layout.list_item, null);
 		}
 		else {
 			view = convertView;
 		}
-		
-		view.setMinimumHeight(64);
 		
 		TextView textClass = (TextView)view.findViewById(R.id.text_class);
 		TextView textLesson = (TextView)view.findViewById(R.id.text_lesson);

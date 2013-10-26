@@ -21,13 +21,11 @@ public class VtplListHeaderItem implements VtplListItem {
 	public View getView(LayoutInflater inflater, View convertView) {
 		View view;
 		if(convertView == null) {
-			view = (View)inflater.inflate(R.layout.list_header, null);
+			view = inflater.inflate(R.layout.list_header, null);
 		}
 		else {
 			view = convertView;
 		}
-
-		view.setMinimumHeight(32);
 		
 		TextView textTitle = (TextView)view.findViewById(R.id.list_header_title);
 		textTitle.setText(m_title);

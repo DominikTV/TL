@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.widget.*;
 import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,15 +24,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.Toast;
 
 import com.philipp_mandler.android.vtpl.VtplListAdapter.RowType;
 
-public class SupplyPlanFragment extends ListFragment {
+public class SupplyPlanFragment extends ListFragment  {
 	
 	private List<VtplListItem> m_vtplEntries = new ArrayList<VtplListItem>();
 	private LayoutInflater m_inflater;
+	private VtplListItem m_lastHeader;
+	private View m_lastHeaderView;
 	VtplDetailFragment m_detailFragment;
 	
 	@Override
@@ -47,7 +48,7 @@ public class SupplyPlanFragment extends ListFragment {
 		
 		VtplListAdapter adapter = new VtplListAdapter(inflater.getContext(), m_vtplEntries);		
 		setListAdapter(adapter);
-		
+
 		m_inflater = inflater;
 		
 		return super.onCreateView(inflater, container, savedInstanceState);
@@ -55,6 +56,53 @@ public class SupplyPlanFragment extends ListFragment {
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
+
+		getListView().setOnScrollListener(new AbsListView.OnScrollListener() {
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				//To change body of implemented methods use File | Settings | File Templates.
+			}
+
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+				int pos = firstVisibleItem;
+				if(pos != 0) {
+					VtplListItem item;
+					while((item = (VtplListItem)view.getItemAtPosition(pos)).getViewType() != RowType.HEADER_ITEM.ordinal()) {
+						pos--;
+					}
+
+
+
+					if(item != m_lastHeader) {
+						if(m_lastHeader != null) {
+							((FrameLayout)getListView().getParent()).removeView(m_lastHeaderView);
+						}
+						m_lastHeader = item;
+						m_lastHeaderView = item.getView(m_inflater, null);
+						RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+						m_lastHeaderView.setLayoutParams(params);
+						((FrameLayout)getListView().getParent()).addView(m_lastHeaderView);
+					}
+
+					if(m_lastHeader != null) {
+						Object nextHeader = view.getItemAtPosition(firstVisibleItem + 1);
+						if(nextHeader != null) {
+							if(((VtplListItem)nextHeader).getViewType() == RowType.HEADER_ITEM.ordinal()) {
+								if(m_lastHeaderView.getHeight() > view.getChildAt(1).getY())
+									m_lastHeaderView.setTranslationY(view.getChildAt(1).getY() - view.getChildAt(1).getHeight());
+								else
+									m_lastHeaderView.setTranslationY(0);
+							}
+							else {
+								m_lastHeaderView.setTranslationY(0);
+							}
+						}
+					}
+				}
+			}
+		});
+
 		try {				
 			ObjectInputStream inputStream = new ObjectInputStream(getActivity().openFileInput("data.bin"));
 			Object object = inputStream.readObject();
@@ -80,6 +128,7 @@ public class SupplyPlanFragment extends ListFragment {
 			dataRequest.execute("http://www.fricke-consult.de/php/MES_VertretungsplanL.php");
 			Data.updated = true;
 		}
+
 		super.onViewCreated(view, savedInstanceState);
 	}
 	
@@ -121,13 +170,13 @@ public class SupplyPlanFragment extends ListFragment {
 		}		
 		super.onListItemClick(l, v, position, id);
 	}
-	
+
 	public class GetVtplData extends AsyncTask<String, Void, Document> {
     	
     	@Override
-    	protected Document doInBackground(String... arg0) {    	        
+    	protected Document doInBackground(String... arg0) {
     		try {
-    			return Jsoup.connect(arg0[0]).data("p", "vtpl").method(Method.POST).execute().parse();  
+    			return Jsoup.connect(arg0[0]).data("p", "vtpl").method(Method.POST).execute().parse();
     		} catch (IOException e) {
     			e.printStackTrace();
 			}
@@ -140,10 +189,10 @@ public class SupplyPlanFragment extends ListFragment {
     			Toast.makeText(getActivity(), R.string.toast_plan_update_failed, Toast.LENGTH_LONG).show();
     			return;
     		}
-    		
+
     		Elements elements = doc.select("tr");
     		List<VtplEntry> dataList = new ArrayList<VtplEntry>();
-    		
+
     		String lastSchoolClass = "-";
     		String lastLesson = "";
     		for(Element element : elements) {
@@ -166,7 +215,7 @@ public class SupplyPlanFragment extends ListFragment {
 								e.printStackTrace();
 							}
 	    				}
-						
+
 						// parse lesson
 						if((data = tdElements.get(2)) != null) {
 							if(data.html().contains("&nbsp;")) {
@@ -177,17 +226,17 @@ public class SupplyPlanFragment extends ListFragment {
 								lastLesson = data.text();
 							}
 						}
-						
+
 						// parse teacher
 						if((data = tdElements.get(3)) != null) {
-							entry.setTeacher(data.text());			
+							entry.setTeacher(data.text());
 						}
-						
+
 						// parse room
 						if((data = tdElements.get(4)) != null) {
 							entry.setRoom(data.text());
 						}
-						
+
 						// parse class
 						if((data = tdElements.get(5)) != null) {
 							if(data.html().contains("&nbsp;"))
@@ -197,32 +246,32 @@ public class SupplyPlanFragment extends ListFragment {
 		    					lastSchoolClass = data.text();
 		    				}
 						}
-						
-						// parse supply teacher		    			
+
+						// parse supply teacher
 						if((data = tdElements.get(6)) != null) {
 							entry.setSupplyTeacher(data.text());
 						}
-						
-						// parse supply room		    			
+
+						// parse supply room
 						if((data = tdElements.get(7)) != null) {
 							entry.setSupplyRoom(data.text());
 						}
-						
-						// parse attribute		    			
+
+						// parse attribute
 						if((data = tdElements.get(8)) != null) {
 							entry.setAttribute(data.text());
 						}
-						
-						// parse info		    			
+
+						// parse info
 						if((data = tdElements.get(9)) != null) {
 							entry.setInfo(data.text());
 						}
-		    			
+
 		    			dataList.add(entry);
     				}
-    				
+
     				m_vtplEntries.clear();
-    				
+
     				Date lastDay = null;
     				for(VtplEntry dataEntry : dataList) {
     					if(lastDay == null || !lastDay.equals(dataEntry.getDate())) {
@@ -238,7 +287,7 @@ public class SupplyPlanFragment extends ListFragment {
 						outputStream.close();
 					} catch (Exception e) {
 						e.printStackTrace();
-					}    				
+					}
     			}
     		}
     		VtplListAdapter adapter = new VtplListAdapter(m_inflater.getContext(), m_vtplEntries);
